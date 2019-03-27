@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+  </head>
+  <body>
+      <h1>ToDo List</h1>
+    <mat-button-toggle-group>
+        <mat-button-toggle value="All" checked (click)="loadToDos()" (click)="filter = 0" >
+          <p>All</p> 
+        </mat-button-toggle>
+        <mat-button-toggle (click)="loadToDos()" (click)="filter = 1">
+          <p>Done</p> 
+        </mat-button-toggle>
+        <mat-button-toggle (click)="loadToDos()" (click)="filter = 2">
+          <p>Open</p> 
+        </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-form-field>
+      <mat-select [(ngModel)]="personName" (valueChange)="loadToDos()" >
+          <mat-option value=""></mat-option>
+          <mat-option *ngFor="let person of people;" value={{person.name}}>{{ person.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <mat-expansion-panel *ngFor="let toDo of toDos;">
+      <mat-expansion-panel-header>
+        <mat-panel-title [ngClass]="toDo.done == false || toDo.done == null ? 'red' : 'green' "> {{ toDo.description }} </mat-panel-title >
+        <mat-panel-description> {{ todo.id }} </mat-panel-description>
+      </mat-expansion-panel-header>
+      {{ toDo.assignedTo }}
+      <mat-action-row>
+        <button mat-button (click)="deleteToDo(toDo.id)">Delete</button>
+        <button mat-button >Edit</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-card>
+        <mat-card-title>
+          New Task
+        </mat-card-title>
+        <mat-form-field>
+          <input matInput placeholder="Description" [(ngModel)]="newDescription">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select [(ngModel)]="newPersonName">
+              <mat-option *ngFor="let person of people;" value={{person.name}}>{{ person.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-button (click)="createToDo()">
+          Create!
+        </button>
+    </mat-card>
+
+    <p>{{ personName }}</p>
+  </body>
+</html>
